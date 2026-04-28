@@ -6,7 +6,7 @@
   <title>@yield('title', 'AskDocPH')</title>
 
   <!-- CSS -->
-  <link rel="stylesheet" href="{{ asset('assets/css/auth.css') }}">
+  <link rel="stylesheet" href="{{ secure_asset('css/auth.css') }}">
 
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -31,7 +31,7 @@
 <header class="topbar">
   <div class="brand">
     <a href="{{ auth()->check() ? route('user.dashboard') : route('home') }}">
-      <img src="{{ asset('assets/img/AskDocPH.png') }}" class="logo" alt="AskDocPH">
+      <img src="{{ secure_asset('img/AskDocPH.png') }}" class="logo" alt="AskDocPH">
     </a>
   </div>
 
@@ -39,7 +39,7 @@
     @auth
       @php
         $user = auth()->user();
-        $avatarUrl = $user->avatar_url ?? asset('assets/img/default.png');
+        $avatarUrl = $user->avatar_url ?? secure_asset('img/default.png');
         $shortName = $user->short_name ?? $user->fname;
       @endphp
       <a href="{{ route('user.dashboard') }}" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); font-weight: 600; transition: opacity 0.2s;" onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
@@ -62,7 +62,7 @@
 @yield('content')
 
 <!-- JS -->
-<script src="{{ asset('assets/js/auth.js') }}" defer></script>
+<script src="{{ secure_asset('js/auth.js') }}" defer></script>
 @stack('scripts')
 </body>
 </html>
