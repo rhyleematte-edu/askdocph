@@ -2,7 +2,7 @@
 dependsOn = ["build"]
 
 [phases.build]
-nixPkgs = ["php", "composer"]
+nixPkgs = ["php"]
 
 [start]
 cmd = "php artisan serve --host=0.0.0.0 --port=$PORT"
