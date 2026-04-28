@@ -2,7 +2,8 @@
 
 root * /app/public
 
-reverse_proxy 127.0.0.1:8080
+encode gzip
+php_fastcgi 127.0.0.1:9000
 
 log {
     output stderr
