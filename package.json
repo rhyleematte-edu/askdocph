@@ -8,7 +8,7 @@
         "hot": "mix watch --hot",
         "prod": "npm run production",
         "production": "mix --production",
-        "build": "composer install --no-dev --optimize-autoloader && npm run production && php artisan migrate --force",
+        "build": "composer install --no-dev --optimize-autoloader && npm run production && php artisan config:clear && php artisan migrate --force",
         "start": "php artisan serve --host=0.0.0.0 --port=$PORT"
     },
     "devDependencies": {
