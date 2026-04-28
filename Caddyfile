@@ -1,0 +1,18 @@
+:{$PORT}
+
+root * /app/public
+
+# Serve static files directly
+@static {
+    path /css/* /js/* /images/* /fonts/*
+}
+handle @static {
+    file_server
+}
+
+# Proxy everything else to Laravel
+reverse_proxy 127.0.0.1:8080
+
+log {
+    output stderr
+}
