@@ -1,0 +1,477 @@
+/* ═══════════════════════════════════════════════════════════════
+   ADMIN.CSS – Full light + dark mode theme for AskDocPH admin
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Token definitions ──────────────────────────────────────── */
+:root {
+  /* Layout */
+  --adm-bg:           #f0f2f8;
+  --adm-panel:        #ffffff;
+  --adm-border:       #e2e8f0;
+  --adm-border-2:     #f1f5f9;
+  --adm-text:         #1e293b;
+  --adm-muted:        #64748b;
+  --adm-thead-bg:     #f8fafc;
+  --adm-hover:        #f5f3ff;
+  --adm-input-bg:     #f8fafc;
+  --adm-input-focus:  #ffffff;
+  --adm-shadow:       0 1px 3px rgba(15,23,42,0.08), 0 8px 24px rgba(15,23,42,0.06);
+  --adm-shadow-lg:    0 4px 6px -1px rgba(15,23,42,0.08), 0 20px 40px -8px rgba(15,23,42,0.1);
+
+  /* Brand header gradient */
+  --adm-grad-a: #7c3aed;
+  --adm-grad-b: #4f46e5;
+
+  /* Status badges */
+  --badge-pending-bg:    #fef3c7; --badge-pending-text:    #92400e; --badge-pending-border:    #fde68a;
+  --badge-approved-bg:   #dcfce7; --badge-approved-text:   #14532d; --badge-approved-border:   #86efac;
+  --badge-rejected-bg:   #fee2e2; --badge-rejected-text:   #7f1d1d; --badge-rejected-border:   #fca5a5;
+  --badge-live-bg:       #dcfce7; --badge-live-text:       #15803d; --badge-live-border:       #86efac;
+  --badge-sched-bg:      #fef3c7; --badge-sched-text:      #92400e; --badge-sched-border:      #fde68a;
+  --badge-draft-bg:      #f1f5f9; --badge-draft-text:      #475569; --badge-draft-border:      #cbd5e1;
+  --badge-offline-bg:    #f1f5f9; --badge-offline-text:    #64748b; --badge-offline-border:    #e2e8f0;
+
+  /* Title chip */
+  --chip-bg: #ede9fe; --chip-text: #5b21b6; --chip-border: #ddd6fe;
+
+  /* Row action buttons */
+  --btn-edit-bg:    #eff6ff; --btn-edit-text:  #1d4ed8; --btn-edit-bd:   #bfdbfe;
+  --btn-edit-hbg:   #dbeafe; --btn-edit-hbd:   #93c5fd;
+  --btn-del-bg:     #fff1f2; --btn-del-text:   #be123c; --btn-del-bd:    #fecdd3;
+  --btn-del-hbg:    #ffe4e6; --btn-del-hbd:    #fda4af;
+  --btn-post-bg:    #f0fdf4; --btn-post-text:  #15803d; --btn-post-bd:   #bbf7d0;
+  --btn-post-hbg:   #dcfce7; --btn-post-hbd:   #86efac;
+
+  /* Alerts */
+  --alert-ok-bg:  #f0fdf4; --alert-ok-text:  #15803d; --alert-ok-bd:  #bbf7d0;
+  --alert-err-bg: #fff1f2; --alert-err-text: #be123c; --alert-err-bd: #fecdd3;
+
+  /* Affirmation spotlight */
+  --afm-bg:     rgba(124,58,237,0.05);
+  --afm-bg2:    rgba(59,130,246,0.03);
+  --afm-border: rgba(124,58,237,0.2);
+}
+
+html.theme-dark {
+  --adm-bg:           #080d18;
+  --adm-panel:        #111827;
+  --adm-border:       rgba(255,255,255,0.09);
+  --adm-border-2:     rgba(255,255,255,0.05);
+  --adm-text:         #e2e8f0;
+  --adm-muted:        #94a3b8;
+  --adm-thead-bg:     rgba(255,255,255,0.04);
+  --adm-hover:        rgba(124,58,237,0.1);
+  --adm-input-bg:     #0f172a;
+  --adm-input-focus:  #1e293b;
+  --adm-shadow:       0 1px 3px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.3);
+  --adm-shadow-lg:    0 4px 6px rgba(0,0,0,0.5), 0 20px 40px rgba(0,0,0,0.35);
+
+  --adm-grad-a: #5b21b6;
+  --adm-grad-b: #3730a3;
+
+  --badge-pending-bg:    rgba(251,191,36,0.15);  --badge-pending-text:    #fbbf24; --badge-pending-border:    rgba(251,191,36,0.35);
+  --badge-approved-bg:   rgba(52,211,153,0.15);  --badge-approved-text:   #34d399; --badge-approved-border:   rgba(52,211,153,0.35);
+  --badge-rejected-bg:   rgba(248,113,113,0.15); --badge-rejected-text:   #f87171; --badge-rejected-border:   rgba(248,113,113,0.3);
+  --badge-live-bg:       rgba(52,211,153,0.15);  --badge-live-text:       #34d399; --badge-live-border:       rgba(52,211,153,0.35);
+  --badge-sched-bg:      rgba(251,191,36,0.15);  --badge-sched-text:      #fbbf24; --badge-sched-border:      rgba(251,191,36,0.35);
+  --badge-draft-bg:      rgba(148,163,184,0.12); --badge-draft-text:      #94a3b8; --badge-draft-border:      rgba(148,163,184,0.25);
+  --badge-offline-bg:    rgba(100,116,139,0.12); --badge-offline-text:    #64748b; --badge-offline-border:    rgba(100,116,139,0.2);
+
+  --chip-bg:    rgba(139,92,246,0.2); --chip-text: #c4b5fd; --chip-border: rgba(139,92,246,0.35);
+
+  --btn-edit-bg:   rgba(59,130,246,0.15); --btn-edit-text:  #93c5fd; --btn-edit-bd:  rgba(59,130,246,0.35);
+  --btn-edit-hbg:  rgba(59,130,246,0.25); --btn-edit-hbd:   rgba(59,130,246,0.55);
+  --btn-del-bg:    rgba(239,68,68,0.15);  --btn-del-text:   #fca5a5; --btn-del-bd:   rgba(239,68,68,0.35);
+  --btn-del-hbg:   rgba(239,68,68,0.25);  --btn-del-hbd:    rgba(239,68,68,0.55);
+  --btn-post-bg:   rgba(16,185,129,0.15); --btn-post-text:  #6ee7b7; --btn-post-bd:  rgba(16,185,129,0.35);
+  --btn-post-hbg:  rgba(16,185,129,0.25); --btn-post-hbd:   rgba(16,185,129,0.55);
+
+  --alert-ok-bg:  rgba(52,211,153,0.12); --alert-ok-text:  #34d399; --alert-ok-bd:  rgba(52,211,153,0.3);
+  --alert-err-bg: rgba(248,113,113,0.12);--alert-err-text: #f87171; --alert-err-bd: rgba(248,113,113,0.3);
+
+  --afm-bg:     rgba(124,58,237,0.12);
+  --afm-bg2:    rgba(59,130,246,0.08);
+  --afm-border: rgba(124,58,237,0.3);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   LAYOUT
+   ══════════════════════════════════════════════════════════════ */
+.adm-page {
+  padding: 32px 24px 80px;
+  min-height: 100vh;
+  background: var(--adm-bg);
+  transition: background 0.3s;
+}
+
+/* ── Card ───────────────────────────────────────────────────── */
+.adm-card {
+  background: var(--adm-panel);
+  border: 1px solid var(--adm-border);
+  border-radius: 20px;
+  box-shadow: var(--adm-shadow);
+  overflow: hidden;
+  margin: 0 auto;
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+/* ── Gradient header bar ────────────────────────────────────── */
+.adm-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 26px;
+  background: linear-gradient(135deg, var(--adm-grad-a), var(--adm-grad-b));
+}
+.adm-card-header h1,
+.adm-card-header h2 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin: 0;
+  color: #fff;
+  letter-spacing: -0.2px;
+}
+.adm-card-header .header-sub {
+  font-size: 0.83rem;
+  color: rgba(255,255,255,0.72);
+  margin: 3px 0 0;
+}
+
+/* White ghost button inside gradient header */
+.btn-header {
+  background: rgba(255,255,255,0.18);
+  color: #fff;
+  border: 1.5px solid rgba(255,255,255,0.45);
+  padding: 9px 18px;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 0.87rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-header:hover {
+  background: rgba(255,255,255,0.28);
+  border-color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   TABLE
+   ══════════════════════════════════════════════════════════════ */
+.adm-table-wrap { overflow-x: auto; }
+.adm-table { width: 100%; border-collapse: collapse; }
+.adm-table thead tr {
+  background: var(--adm-thead-bg);
+  border-bottom: 1.5px solid var(--adm-border);
+}
+.adm-table th {
+  padding: 11px 22px;
+  text-align: left;
+  font-weight: 800;
+  color: var(--adm-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  font-size: 0.71rem;
+  white-space: nowrap;
+}
+.adm-table td {
+  padding: 15px 22px;
+  color: var(--adm-text);
+  font-size: 0.91rem;
+  border-bottom: 1px solid var(--adm-border-2);
+  vertical-align: middle;
+  transition: background 0.15s;
+}
+.adm-table tbody tr:last-child td { border-bottom: none; }
+.adm-table tbody tr:hover td { background: var(--adm-hover); }
+
+/* ══════════════════════════════════════════════════════════════
+   STATUS BADGES
+   ══════════════════════════════════════════════════════════════ */
+.badge-status,
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 11px;
+  border-radius: 20px;
+  font-size: 0.71rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid;
+  transition: background 0.2s, color 0.2s;
+}
+/* Applications */
+.badge.pending,  .badge-pending  { background: var(--badge-pending-bg);  color: var(--badge-pending-text);  border-color: var(--badge-pending-border); }
+.badge.approved, .badge-approved { background: var(--badge-approved-bg); color: var(--badge-approved-text); border-color: var(--badge-approved-border); }
+.badge.rejected, .badge-rejected { background: var(--badge-rejected-bg); color: var(--badge-rejected-text); border-color: var(--badge-rejected-border); }
+/* Affirmations */
+.badge-live     { background: var(--badge-live-bg);    color: var(--badge-live-text);    border-color: var(--badge-live-border); }
+.badge-scheduled{ background: var(--badge-sched-bg);   color: var(--badge-sched-text);   border-color: var(--badge-sched-border); }
+.badge-draft    { background: var(--badge-draft-bg);   color: var(--badge-draft-text);   border-color: var(--badge-draft-border); }
+.badge-offline  { background: var(--badge-offline-bg); color: var(--badge-offline-text); border-color: var(--badge-offline-border); }
+
+/* Professional title chip */
+.title-chip {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.83rem;
+  background: var(--chip-bg);
+  color: var(--chip-text);
+  border: 1px solid var(--chip-border);
+  transition: background 0.2s, color 0.2s;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ROW ACTION BUTTONS
+   ══════════════════════════════════════════════════════════════ */
+.btn-act {
+  padding: 7px 13px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.81rem;
+  cursor: pointer;
+  transition: all 0.18s;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1.5px solid;
+  text-decoration: none;
+}
+.btn-act-edit  { background: var(--btn-edit-bg);  color: var(--btn-edit-text);  border-color: var(--btn-edit-bd); }
+.btn-act-edit:hover  { background: var(--btn-edit-hbg);  border-color: var(--btn-edit-hbd);  transform: translateY(-1px); box-shadow: 0 3px 8px rgba(29,78,216,0.15); }
+.btn-act-del   { background: var(--btn-del-bg);   color: var(--btn-del-text);   border-color: var(--btn-del-bd); }
+.btn-act-del:hover   { background: var(--btn-del-hbg);   border-color: var(--btn-del-hbd);   transform: translateY(-1px); box-shadow: 0 3px 8px rgba(190,18,60,0.15); }
+.btn-act-post  { background: var(--btn-post-bg);  color: var(--btn-post-text);  border-color: var(--btn-post-bd); }
+.btn-act-post:hover  { background: var(--btn-post-hbg);  border-color: var(--btn-post-hbd);  transform: translateY(-1px); }
+
+/* View-details link (Applications) */
+.btn-view {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 9px;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+  background: var(--chip-bg);
+  color: var(--chip-text);
+  border: 1.5px solid var(--chip-border);
+  transition: all 0.2s;
+}
+.btn-view:hover {
+  background: rgba(124,58,237,0.18);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(124,58,237,0.18);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ALERTS
+   ══════════════════════════════════════════════════════════════ */
+.adm-alert {
+  padding: 12px 15px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid;
+  transition: background 0.2s;
+}
+.adm-alert-ok  { background: var(--alert-ok-bg);  color: var(--alert-ok-text);  border-color: var(--alert-ok-bd); }
+.adm-alert-err { background: var(--alert-err-bg); color: var(--alert-err-text); border-color: var(--alert-err-bd); }
+
+/* ══════════════════════════════════════════════════════════════
+   AFFIRMATION SPOTLIGHT
+   ══════════════════════════════════════════════════════════════ */
+.afm-spotlight {
+  background: linear-gradient(135deg, var(--afm-bg), var(--afm-bg2));
+  border: 1px solid var(--afm-border);
+  border-radius: 14px;
+  padding: 18px 22px 18px 26px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s, border-color 0.3s;
+}
+.afm-spotlight::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+  background: linear-gradient(to bottom, #8b5cf6, #3b82f6);
+  border-radius: 4px 0 0 4px;
+}
+.afm-spotlight h3 {
+  margin: 0 0 10px;
+  font-size: 0.9rem;
+  color: var(--adm-text);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.afm-quote {
+  font-size: 1rem;
+  line-height: 1.65;
+  font-style: italic;
+  color: var(--adm-text);
+  margin-bottom: 10px;
+  opacity: 0.9;
+}
+.afm-meta {
+  font-size: 0.83rem;
+  color: var(--adm-muted);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   MODALS
+   ══════════════════════════════════════════════════════════════ */
+.adm-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(6px);
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.adm-backdrop.open { display: flex; opacity: 1; }
+
+.adm-modal {
+  background: var(--adm-panel);
+  border: 1px solid var(--adm-border);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 520px;
+  box-shadow: var(--adm-shadow-lg);
+  transform: scale(0.96) translateY(14px);
+  transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+  overflow: hidden;
+}
+.adm-backdrop.open .adm-modal { transform: scale(1) translateY(0); }
+
+.adm-modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 22px;
+  background: linear-gradient(135deg, var(--adm-grad-a), var(--adm-grad-b));
+}
+.adm-modal-head h2 { font-size: 1.08rem; font-weight: 800; color: #fff; margin: 0; }
+.adm-modal-close {
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  width: 28px; height: 28px;
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s; flex-shrink: 0;
+}
+.adm-modal-close:hover { background: rgba(255,255,255,0.28); }
+
+.adm-modal-body { padding: 20px 22px; }
+
+/* ── Form controls inside modals ────────────────────────────── */
+.adm-form-group { margin-bottom: 15px; }
+.adm-form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 700;
+  color: var(--adm-text);
+  font-size: 0.82rem;
+}
+.adm-form-control {
+  width: 100%;
+  background: var(--adm-input-bg);
+  border: 1.5px solid var(--adm-border);
+  padding: 10px 13px;
+  border-radius: 10px;
+  color: var(--adm-text);
+  font-size: 0.91rem;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  font-family: inherit;
+}
+.adm-form-control::placeholder { color: var(--adm-muted); opacity: 0.7; }
+.adm-form-control:focus {
+  outline: none;
+  background: var(--adm-input-focus);
+  border-color: var(--adm-grad-a);
+  box-shadow: 0 0 0 3px rgba(124,58,237,0.14);
+}
+textarea.adm-form-control { resize: vertical; min-height: 90px; }
+select.adm-form-control { cursor: pointer; }
+
+.adm-modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 18px; }
+
+.btn-adm-save {
+  background: linear-gradient(135deg, var(--adm-grad-a), var(--adm-grad-b));
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(124,58,237,0.28);
+}
+.btn-adm-save:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(124,58,237,0.4); }
+
+.btn-adm-cancel {
+  background: var(--adm-thead-bg);
+  color: var(--adm-muted);
+  border: 1.5px solid var(--adm-border);
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-adm-cancel:hover { background: var(--adm-hover); color: var(--adm-text); }
+
+/* ══════════════════════════════════════════════════════════════
+   MISC UTILITIES
+   ══════════════════════════════════════════════════════════════ */
+.adm-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--adm-muted);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Smooth colour transitions on all admin panels */
+.adm-card,
+.adm-table th,
+.adm-table td,
+.afm-spotlight,
+.adm-modal,
+.adm-form-control,
+.badge-status, .badge,
+.title-chip,
+.btn-act {
+  transition-property: background, color, border-color, box-shadow;
+  transition-duration: 0.25s;
+  transition-timing-function: ease;
+}
