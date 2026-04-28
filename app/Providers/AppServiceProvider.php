@@ -28,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
         // Force HTTPS URLs for assets in production
         if (app()->environment('production')) {
             \URL::forceScheme('https');
+            \URL::forceRootUrl(config('app.url'));
         }
         
         View::composer('partials.daily_affirmation_panel', function ($view) {
