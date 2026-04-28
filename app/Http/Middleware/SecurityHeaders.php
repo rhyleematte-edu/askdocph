@@ -38,15 +38,15 @@ class SecurityHeaders
 
         $csp = implode('; ', [
             "default-src 'self'",
-            "script-src 'self' 'unsafe-inline' blob: https://unpkg.com https://cdn.jsdelivr.net",
+            "script-src 'self' 'unsafe-inline' blob: http: https: https://unpkg.com https://cdn.jsdelivr.net",
             "worker-src 'self' blob:",
-            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net",
-            "font-src 'self' https://fonts.gstatic.com data:",
-            "img-src 'self' data: blob: https:",
+            "style-src 'self' 'unsafe-inline' http: https: https://fonts.googleapis.com https://cdn.jsdelivr.net",
+            "font-src 'self' http: https: https://fonts.gstatic.com data:",
+            "img-src 'self' http: https: data: blob:",
             "media-src 'self' blob:",
             "connect-src 'self'{$debugConnectSrc} https://unpkg.com https://cdn.jsdelivr.net",
             "frame-ancestors 'self'",
-            "form-action 'self'",
+            "form-action 'self' http: https:",
             "base-uri 'self'",
         ]);
 
