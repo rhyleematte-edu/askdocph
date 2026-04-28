@@ -1,6 +1,8 @@
-[phases.caddy]
-dependsOn = ["setup"]
-nixPkgs = ["caddy"]
+[phases.setup]
+dependsOn = ["build"]
+
+[phases.build]
+nixPkgs = ["php", "nodejs", "composer", "npm"]
 
 [start]
-cmd = "chmod -R 775 storage bootstrap/cache && php artisan migrate --force && { php-fpm -y /assets/php-fpm.conf & sleep 2; caddy run --config /app/Caddyfile 2>&1; }"
+cmd = "php artisan serve --host=0.0.0.0 --port=$PORT"
