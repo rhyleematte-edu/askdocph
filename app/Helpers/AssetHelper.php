@@ -9,7 +9,8 @@ if (!function_exists('secure_asset')) {
      */
     function secure_asset($path)
     {
-        $assetUrl = config('app.url') . '/assets/' . ltrim($path, '/');
+        // Use Laravel's asset() function but force HTTPS
+        $assetUrl = asset('assets/' . ltrim($path, '/'));
         return str_replace('http://', 'https://', $assetUrl);
     }
 }
