@@ -5,7 +5,8 @@ NIXPACKS_PHP_VERSION = '8.2'
 cmds = ["composer install --no-dev --optimize-autoloader --ignore-platform-reqs --no-scripts", "npm install"]
 
 [phases.build]
-cmds = ["php artisan package:discover --ansi", "npm run production"]
+cmds = ["mkdir -p storage/framework/sessions storage/framework/views storage/framework/cache storage/logs", "php artisan package:discover --ansi", "npm run production"]
+
 
 [start]
 cmd = "php artisan migrate --force && php -S 0.0.0.0:$PORT server.php"
