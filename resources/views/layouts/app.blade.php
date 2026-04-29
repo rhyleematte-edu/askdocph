@@ -6,7 +6,8 @@
   <title>@yield('title', 'AskDocPH')</title>
 
   <!-- CSS -->
-  <link rel="stylesheet" href="{{ asset('assets/css/auth.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+
 
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -62,7 +63,8 @@
 @yield('content')
 
 <!-- JS -->
-<script src="{{ asset('assets/js/auth.js') }}" defer></script>
+<script src="{{ asset('js/auth.js') }}" defer></script>
+
 @stack('scripts')
 </body>
 </html>

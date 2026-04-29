@@ -11,8 +11,9 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
 
   <!-- Base + Dashboard CSS -->
-  <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/css/messenger.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/messenger.css') }}">
+
   @if(Auth::check() && Auth::user()->isApprovedDoctor())
     <link rel="stylesheet" href="{{ asset('assets/css/schedule.css') }}">
   @endif
@@ -81,7 +82,8 @@
 <!-- Dashboard JS -->
 <script src="{{ asset('assets/js/mentions.js') }}?v={{ filemtime(public_path('assets/js/mentions.js')) }}" defer></script>
 <script src="{{ asset('assets/js/notifications.js') }}?v={{ filemtime(public_path('assets/js/notifications.js')) }}" defer></script>
-<script src="{{ asset('assets/js/dashboard.js') }}?v={{ filemtime(public_path('assets/js/dashboard.js')) }}" defer></script>
+<script src="{{ asset('js/dashboard.js') }}?v={{ filemtime(public_path('js/dashboard.js')) }}" defer></script>
+
 <script src="{{ asset('assets/js/post-ui.js') }}?v={{ filemtime(public_path('assets/js/post-ui.js')) }}" defer></script>
 <script src="{{ asset('assets/js/messenger.js') }}" defer></script>
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
