@@ -1,7 +1,16 @@
 #!/usr/bin/env php
 <?php
 
+// Force PORT to be an integer to prevent Laravel's "string + int" crash
+if (isset($_SERVER['PORT'])) {
+    $_SERVER['PORT'] = (int) $_SERVER['PORT'];
+}
+if (getenv('PORT')) {
+    putenv("PORT=" . (int) getenv('PORT'));
+}
+
 define('LARAVEL_START', microtime(true));
+
 
 /*
 |--------------------------------------------------------------------------

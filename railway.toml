@@ -11,7 +11,7 @@ restartPolicyMaxRetries = 10
 PHP_VERSION = "8.2"
 
 APP_KEY = "base64:7vF6Vf0V5L7X4F0T5L7X4F0T5L7X4F0T5L7X4F0T5L8="
-PORT = "8080"
+
 
 APP_NAME = "AskDocPH"
 APP_ENV = "production"
