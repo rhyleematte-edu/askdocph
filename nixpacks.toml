@@ -8,4 +8,5 @@ cmds = ["composer install --no-dev --optimize-autoloader --ignore-platform-reqs"
 cmds = ["npm run production"]
 
 [start]
-cmd = "php -S 0.0.0.0:$PORT -t public"
+cmd = "php artisan migrate --force && php -S 0.0.0.0:$PORT server.php"
+
