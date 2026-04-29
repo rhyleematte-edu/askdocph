@@ -34,7 +34,8 @@ COPY . .
 # Install dependencies
 RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs --no-scripts
 # Patch broken ServeCommand at the exact line of the crash
-RUN sed -i 's/\$port + \$tries/(int)\$port + \$tries/g' vendor/laravel/framework/src/Illuminate/Foundation/Console/ServeCommand.php || true
+RUN sed -i 's/\$port + \$this->portOffset/(int)\$port + \$this->portOffset/g' vendor/laravel/framework/src/Illuminate/Foundation/Console/ServeCommand.php || true
+
 
 
 RUN npm install && npm run production
