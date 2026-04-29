@@ -1,8 +1,12 @@
 [phases.setup]
-dependsOn = ["build"]
+nixPkgs = ["php", "nodejs", "composer"]
+
+[phases.install]
+cmds = ["composer install --no-dev --optimize-autoloader", "npm install"]
 
 [phases.build]
-nixPkgs = ["php"]
+cmds = ["npm run production"]
 
 [start]
 cmd = "php artisan serve --host=0.0.0.0 --port=$PORT"
+
