@@ -1,5 +1,5 @@
 [build]
-builder = "docker"
+builder = "DOCKERFILE"
 
 [variables]
 PHP_VERSION = "8.2"
