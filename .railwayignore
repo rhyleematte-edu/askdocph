@@ -1,0 +1,12 @@
+/node_modules
+/vendor
+/storage
+/.git
+/public/storage
+.env
+debug-b31335.log
+output_er.txt
+*.py
+*.php_test.php
+/Test AI
+/AI data
