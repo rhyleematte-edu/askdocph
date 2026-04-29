@@ -33,6 +33,9 @@ COPY . .
 
 # Install dependencies
 RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs --no-scripts
+# Patch broken ServeCommand
+RUN sed -i 's/(int) $this->port()/(int) $this->port() + 0/g' vendor/laravel/framework/src/Illuminate/Foundation/Console/ServeCommand.php || true
+
 RUN npm install && npm run production
 
 # Create storage structure and fix permissions
