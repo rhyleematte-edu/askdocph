@@ -18,7 +18,7 @@
         "postcss": "^8.1.14"
     },
     "devDependencies": {
-        "facade/ignition": "^2.5",
-
+        "facade/ignition": "^2.5"
     }
+
 }
