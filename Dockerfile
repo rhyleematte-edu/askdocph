@@ -63,10 +63,12 @@ RUN echo 'server { \n\
 
 # Start script
 RUN echo '#!/bin/sh \n\
-sed -i "s/8080/$PORT/g" /etc/nginx/sites-available/default \n\
+sed -i "s/8080/\$PORT/g" /etc/nginx/sites-available/default \n\
 php artisan migrate --force \n\
 php-fpm -D \n\
 nginx -g "daemon off;"' > /start.sh
+
+
 
 RUN chmod +x /start.sh
 
