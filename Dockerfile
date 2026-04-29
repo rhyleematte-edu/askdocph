@@ -34,15 +34,16 @@ COPY . .
 # Install dependencies
 RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs --no-scripts
 
-# Patch broken ServeCommand at the exact line of the crash (if user runs artisan serve)
+# Patch ServeCommand for local dev if needed
 RUN sed -i 's/\$port + \$this->portOffset/(int)\$port + \$this->portOffset/g' vendor/laravel/framework/src/Illuminate/Foundation/Console/ServeCommand.php || true
 
+# Build assets
 RUN npm install && npm run production
 
-# Create storage structure and fix permissions
+# Permissions
 RUN mkdir -p storage/framework/sessions storage/framework/views storage/framework/cache storage/logs bootstrap/cache
 RUN chmod -R 775 storage bootstrap/cache
-RUN php artisan storage:link || true
+RUN chown -R www-data:www-data storage bootstrap/cache
 
 # Nginx config
 RUN printf "server { \n\
@@ -60,14 +61,26 @@ RUN printf "server { \n\
     } \n\
 }\n" > /etc/nginx/sites-available/default
 
-# Enable the site (ensure symlink exists)
 RUN ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
-# Create robust start script
+# Resilient Start Script
 RUN printf "#!/bin/sh\n\
+echo \"Starting AskDocPH Deployment...\"\n\
+\n\
+if [ -z \"\$PORT\" ]; then\n\
+  export PORT=8080\n\
+fi\n\
+\n\
+echo \"Replacing port in Nginx config to \$PORT\"\n\
 sed -i \"s/8080/\$PORT/g\" /etc/nginx/sites-available/default\n\
-php artisan migrate --force\n\
+\n\
+echo \"Running migrations in background...\"\n\
+(php artisan migrate --force || echo \"Migration failed - check DB credentials\") &\n\
+\n\
+echo \"Starting PHP-FPM...\"\n\
 php-fpm -D\n\
+\n\
+echo \"Starting Nginx on port \$PORT...\"\n\
 nginx -g \"daemon off;\"\n" > /start.sh
 
 RUN chmod +x /start.sh
