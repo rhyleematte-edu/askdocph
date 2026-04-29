@@ -6,7 +6,9 @@ if (isset($_SERVER['PORT'])) {
     $_SERVER['PORT'] = (int) $_SERVER['PORT'];
 }
 if (getenv('PORT')) {
-    putenv("PORT=" . (int) getenv('PORT'));
+    $port = (int) getenv('PORT');
+    putenv("PORT={$port}");
+    $_ENV['PORT'] = $port;
 }
 
 define('LARAVEL_START', microtime(true));

@@ -36,6 +36,12 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs --no-scripts
 RUN npm install && npm run production
 
+# --- BRUTE FORCE PATCH FOR LARAVEL PORT CRASH ---
+# This patches the framework to ensure the port is ALWAYS an integer, 
+# which fixes the "Unsupported operand types: string + int" bug.
+RUN sed -i 's/\$port + \$this->portOffset/(int)\$port + \$this->portOffset/g' vendor/laravel/framework/src/Illuminate/Foundation/Console/ServeCommand.php || true
+RUN sed -i 's/\$this->port() + \$this->portOffset/(int)\$this->port() + \$this->portOffset/g' vendor/laravel/framework/src/Illuminate/Foundation/Console/ServeCommand.php || true
+
 # Permissions
 RUN mkdir -p storage/framework/sessions storage/framework/views storage/framework/cache storage/logs bootstrap/cache
 RUN chmod -R 775 storage bootstrap/cache
@@ -89,15 +95,18 @@ echo \"--- STARTING DEPLOYMENT ---\"\n\
 export PORT=\${PORT:-8080}\n\
 echo \"Target Port: \$PORT\"\n\
 \n\
-# Replace port in all possible config locations\n\
+# Force artisan to use integer port\n\
+export PORT=\$(echo \$PORT | sed 's/[^0-9]//g')\n\
+\n\
+# Replace port in Nginx config\n\
 sed -i \"s/8080/\$PORT/g\" /etc/nginx/sites-available/default\n\
 sed -i \"s/8080/\$PORT/g\" /etc/nginx/sites-enabled/default || true\n\
 \n\
 # Test Nginx\n\
 nginx -t\n\
 \n\
-# Background migrations\n\
-(php artisan migrate --force || echo \"Migration failed\") &\n\
+# Run migrations\n\
+php artisan migrate --force || echo \"Migration failed\"\n\
 \n\
 echo \"--- STARTING SUPERVISOR ---\"\n\
 exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf\n" > /start.sh
