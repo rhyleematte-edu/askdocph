@@ -10,7 +10,8 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     libzip-dev \
-    nginx
+    nginx \
+    supervisor
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -33,17 +34,13 @@ COPY . .
 
 # Install dependencies
 RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs --no-scripts
-
-# Patch ServeCommand for local dev if needed
-RUN sed -i 's/\$port + \$this->portOffset/(int)\$port + \$this->portOffset/g' vendor/laravel/framework/src/Illuminate/Foundation/Console/ServeCommand.php || true
-
-# Build assets
 RUN npm install && npm run production
 
 # Permissions
 RUN mkdir -p storage/framework/sessions storage/framework/views storage/framework/cache storage/logs bootstrap/cache
 RUN chmod -R 775 storage bootstrap/cache
 RUN chown -R www-data:www-data storage bootstrap/cache
+RUN php artisan storage:link || true
 
 # Nginx config
 RUN printf "server { \n\
@@ -63,25 +60,47 @@ RUN printf "server { \n\
 
 RUN ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
-# Resilient Start Script
+# Supervisor config
+RUN printf "[supervisord]\n\
+nodaemon=true\n\
+user=root\n\
+logfile=/var/log/supervisor/supervisord.log\n\
+pidfile=/var/run/supervisord.pid\n\
+\n\
+[program:php-fpm]\n\
+command=php-fpm\n\
+stdout_logfile=/dev/stdout\n\
+stdout_logfile_maxbytes=0\n\
+stderr_logfile=/dev/stderr\n\
+stderr_logfile_maxbytes=0\n\
+\n\
+[program:nginx]\n\
+command=nginx -g \"daemon off;\"\n\
+stdout_logfile=/dev/stdout\n\
+stdout_logfile_maxbytes=0\n\
+stderr_logfile=/dev/stderr\n\
+stderr_logfile_maxbytes=0\n" > /etc/supervisor/conf.d/supervisord.conf
+
+# Verbose Start Script
 RUN printf "#!/bin/sh\n\
-echo \"Starting AskDocPH Deployment...\"\n\
+set -ex\n\
+echo \"--- STARTING DEPLOYMENT ---\"\n\
 \n\
-if [ -z \"\$PORT\" ]; then\n\
-  export PORT=8080\n\
-fi\n\
+export PORT=\${PORT:-8080}\n\
+echo \"Target Port: \$PORT\"\n\
 \n\
-echo \"Replacing port in Nginx config to \$PORT\"\n\
+# Replace port in all possible config locations\n\
 sed -i \"s/8080/\$PORT/g\" /etc/nginx/sites-available/default\n\
+sed -i \"s/8080/\$PORT/g\" /etc/nginx/sites-enabled/default || true\n\
 \n\
-echo \"Running migrations in background...\"\n\
-(php artisan migrate --force || echo \"Migration failed - check DB credentials\") &\n\
+# Test Nginx\n\
+nginx -t\n\
 \n\
-echo \"Starting PHP-FPM...\"\n\
-php-fpm -D\n\
+# Background migrations\n\
+(php artisan migrate --force || echo \"Migration failed\") &\n\
 \n\
-echo \"Starting Nginx on port \$PORT...\"\n\
-nginx -g \"daemon off;\"\n" > /start.sh
+echo \"--- STARTING SUPERVISOR ---\"\n\
+exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf\n" > /start.sh
 
 RUN chmod +x /start.sh
 
